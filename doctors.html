@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جميع الأطباء والصيادلة - دليل حلفايا الطبي</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي</span>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">التصنيفات</a></li>
+                <li class="nav-item"><a href="doctors.html" class="nav-link">جميع الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="on-duty.html" class="nav-link">صيدليات المناوبة</a></li>
+                <li class="nav-item"><a href="add.html" class="nav-link">إضافة طبيب/صيدلي</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">جميع الأطباء والصيادلة</h1>
+            
+            <!-- Search and Filters Section -->
+            <div class="search-filters-section">
+                <!-- Main Search Box -->
+                <div class="search-container doctors-search">
+                    <input type="text" id="doctors-search" class="search-input" placeholder="ابحث باسم الطبيب أو الاختصاص...">
+                </div>
+                
+                <!-- Filters -->
+                <div class="filters-container">
+                    <select id="specialty-filter" class="filter-select">
+                        <option value="">جميع التصنيفات</option>
+                        <option value="أطفال">أطفال</option>
+                        <option value="نسائية">نسائية</option>
+                        <option value="قلبية">قلبية</option>
+                        <option value="داخلية">داخلية</option>
+                        <option value="عظمية">عظمية</option>
+                        <option value="عصبية">عصبية</option>
+                        <option value="عينية">عينية</option>
+                        <option value="أنف أذن حنجرة">أنف أذن حنجرة</option>
+                        <option value="طب طوارئ">طب طوارئ</option>
+                        <option value="أشعة">أشعة</option>
+                        <option value="أسنان">أسنان</option>
+                        <option value="جلدية">جلدية</option>
+                        <option value="بولية">بولية</option>
+                        <option value="هضمية">هضمية</option>
+                        <option value="جراحة">جراحة</option>
+                        <option value="صيدليات">صيدليات</option>
+                    </select>
+                    
+                    <select id="type-filter" class="filter-select">
+                        <option value="">عرض الجميع</option>
+                        <option value="doctor">أطباء فقط</option>
+                        <option value="pharmacist">صيادلة فقط</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Doctors and Pharmacists Cards Container -->
+            <div id="doctors-container" class="doctors-grid">
+                <!-- Cards will be dynamically inserted here by JavaScript -->
+            </div>
+        </div>
+    </main>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script>
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load doctors and pharmacists from API
+            await loadDoctorsAndPharmacists();
+            
+            // Get URL parameters if any
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            const categoryQuery = urlParams.get('category');
+            
+            // If there's a search query from URL, populate the search box
+            if (searchQuery) {
+                const searchBox = document.getElementById('doctors-search');
+                if (searchBox) {
+                    searchBox.value = decodeURIComponent(searchQuery);
+                }
+            }
+            
+            // If there's a category query from URL, set the specialty filter
+            if (categoryQuery) {
+                const specialtyFilter = document.getElementById('specialty-filter');
+                if (specialtyFilter) {
+                    specialtyFilter.value = decodeURIComponent(categoryQuery);
+                }
+            }
+            
+            // Apply filters (this will show all if no filters are set)
+            filterDoctors();
+            
+            // Add event listeners for search and filters
+            const searchBox = document.getElementById('doctors-search');
+            const specialtyFilter = document.getElementById('specialty-filter');
+            const typeFilter = document.getElementById('type-filter');
+            
+            if (searchBox) {
+                searchBox.addEventListener('input', filterDoctors);
+            }
+            if (specialtyFilter) {
+                specialtyFilter.addEventListener('change', filterDoctors);
+            }
+            if (typeFilter) {
+                typeFilter.addEventListener('change', filterDoctors);
+            }
+        });
+    </script>
+</body>
+</html>

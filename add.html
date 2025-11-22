@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة طبيب / صيدلي - دليل حلفايا الطبي</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي</span>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">التصنيفات</a></li>
+                <li class="nav-item"><a href="doctors.html" class="nav-link">جميع الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="on-duty.html" class="nav-link">صيدليات المناوبة</a></li>
+                <li class="nav-item"><a href="add.html" class="nav-link">إضافة طبيب/صيدلي/صيدلية</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">إضافة طبيب / صيدلي جديد</h1>
+            
+            <!-- Success Message (hidden by default) -->
+            <div id="success-message" class="success-message" style="display: none;">
+                <p>✓ تم إرسال الطلب بنجاح وسيتم مراجعته قريبًا.</p>
+            </div>
+            
+            <!-- Add Doctor/Pharmacist Form -->
+            <form id="add-form" class="add-form">
+                <div class="form-group">
+                    <label for="user-type">النوع</label>
+                    <select id="user-type" name="userType" class="form-input" required>
+                        <option value="">اختر النوع</option>
+                        <option value="doctor">طبيب</option>
+                        <option value="pharmacist">صيدلي</option>
+                        <option value="pharmacy">صيدلية</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="full-name">الاسم الكامل</label>
+                    <input type="text" id="full-name" name="fullName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group" id="gender-group" style="display: none;">
+                    <label for="gender">الجنس</label>
+                    <select id="gender" name="gender" class="form-input" required>
+                        <option value="">اختر الجنس</option>
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="specialty-group" style="display: none;">
+                    <label for="specialty">الاختصاص</label>
+                    <select id="specialty" name="specialty" class="form-input">
+                        <option value="">اختر الاختصاص</option>
+                        <option value="أطفال">أطفال</option>
+                        <option value="نسائية">نسائية</option>
+                        <option value="عظمية">عظمية</option>
+                        <option value="قلبية">قلبية</option>
+                        <option value="داخلية">داخلية</option>
+                        <option value="عصبية">عصبية</option>
+                        <option value="عينية">عينية</option>
+                        <option value="أنف أذن حنجرة">أنف أذن حنجرة</option>
+                        <option value="طب طوارئ">طب طوارئ</option>
+                        <option value="أشعة">أشعة</option>
+                        <option value="أسنان">أسنان</option>
+                        <option value="غير ذلك">غير ذلك</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">الموقع (اختياري)</label>
+                    <input type="text" id="location" name="location" class="form-input">
+                </div>
+                
+                <div class="form-group" id="notes-group" style="display: none;">
+                    <label for="notes">ملاحظات (اختياري)</label>
+                    <textarea id="notes" name="notes" class="form-textarea" rows="4" placeholder="إذا كان اختصاص الطبيب/الطبيبة غير موجود في القائمة أعلاه، يرجى كتابة اسم التخصص هنا فقط (مثال: جراحة تجميلية، طب نفسي، إلخ)"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">إرسال الطلب</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script>
+        // Initialize the form when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('add-form');
+            const userTypeSelect = document.getElementById('user-type');
+            const genderGroup = document.getElementById('gender-group');
+            const genderSelect = document.getElementById('gender');
+            const specialtyGroup = document.getElementById('specialty-group');
+            const specialtySelect = document.getElementById('specialty');
+            
+            // Handle user type change
+            const notesGroup = document.getElementById('notes-group');
+            userTypeSelect.addEventListener('change', function() {
+                if (this.value === 'doctor' || this.value === 'pharmacist') {
+                    genderGroup.style.display = 'block';
+                    genderSelect.setAttribute('required', 'required');
+                } else {
+                    genderGroup.style.display = 'none';
+                    genderSelect.removeAttribute('required');
+                    genderSelect.value = '';
+                }
+                
+                if (this.value === 'doctor') {
+                    specialtyGroup.style.display = 'block';
+                    specialtySelect.setAttribute('required', 'required');
+                    notesGroup.style.display = 'block';
+                } else {
+                    specialtyGroup.style.display = 'none';
+                    specialtySelect.removeAttribute('required');
+                    specialtySelect.value = '';
+                    notesGroup.style.display = 'none';
+                    document.getElementById('notes').value = '';
+                }
+            });
+            
+            // Add submit event listener
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitForm();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التصنيفات الطبية - دليل حلفايا الطبي</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي</span>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">التصنيفات</a></li>
+                <li class="nav-item"><a href="doctors.html" class="nav-link">جميع الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="on-duty.html" class="nav-link">صيدليات المناوبة</a></li>
+                <li class="nav-item"><a href="add.html" class="nav-link">إضافة طبيب/صيدلي</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">التصنيفات الطبية</h1>
+            
+            <!-- Subtitle -->
+            <p class="subtitle">اختر التصنيف الطبي للوصول السريع إلى الأطباء والصيادلة في مدينة حلفايا.</p>
+            
+            <!-- Search Box -->
+            <div class="search-container categories-search">
+                <input type="text" id="category-search" class="search-input" placeholder="ابحث داخل التصنيفات..." oninput="filterCategories()">
+            </div>
+            
+            <!-- Category Count -->
+            <p class="category-count">عدد التصنيفات المتاحة: <span id="categoryCount"></span></p>
+            
+            <!-- Categories Grid -->
+            <div class="categories-grid">
+                <a href="doctors.html?category=أطفال" class="category-card" data-category="أطفال">
+                    <span class="category-icon">👶</span>
+                    <span class="category-name">أطفال</span>
+                </a>
+                <a href="doctors.html?category=نسائية" class="category-card" data-category="نسائية">
+                    <span class="category-icon">👩‍⚕️</span>
+                    <span class="category-name">نسائية</span>
+                </a>
+                <a href="doctors.html?category=قلبية" class="category-card" data-category="قلبية">
+                    <span class="category-icon">❤️</span>
+                    <span class="category-name">قلبية</span>
+                </a>
+                <a href="doctors.html?category=داخلية" class="category-card" data-category="داخلية">
+                    <span class="category-icon">🩺</span>
+                    <span class="category-name">داخلية</span>
+                </a>
+                <a href="doctors.html?category=عظمية" class="category-card" data-category="عظمية">
+                    <span class="category-icon">🦴</span>
+                    <span class="category-name">عظمية</span>
+                </a>
+                <a href="doctors.html?category=عصبية" class="category-card" data-category="عصبية">
+                    <span class="category-icon">🧠</span>
+                    <span class="category-name">عصبية</span>
+                </a>
+                <a href="doctors.html?category=عينية" class="category-card" data-category="عينية">
+                    <span class="category-icon">👁️</span>
+                    <span class="category-name">عينية</span>
+                </a>
+                <a href="doctors.html?category=أنف أذن حنجرة" class="category-card" data-category="أنف أذن حنجرة">
+                    <span class="category-icon">👂</span>
+                    <span class="category-name">أنف أذن حنجرة</span>
+                </a>
+                <a href="doctors.html?category=طب طوارئ" class="category-card" data-category="طب طوارئ">
+                    <span class="category-icon">🚑</span>
+                    <span class="category-name">طب طوارئ</span>
+                </a>
+                <a href="doctors.html?category=أشعة" class="category-card" data-category="أشعة">
+                    <span class="category-icon">📷</span>
+                    <span class="category-name">أشعة</span>
+                </a>
+                <a href="doctors.html?category=أسنان" class="category-card" data-category="أسنان">
+                    <span class="category-icon">🦷</span>
+                    <span class="category-name">أسنان</span>
+                </a>
+                <a href="doctors.html?category=صيدليات" class="category-card" data-category="صيدليات">
+                    <span class="category-icon">💊</span>
+                    <span class="category-name">صيدليات</span>
+                </a>
+                <a href="doctors.html?category=جلدية" class="category-card" data-category="جلدية">
+                    <span class="category-icon">🧴</span>
+                    <span class="category-name">جلدية</span>
+                </a>
+                <a href="doctors.html?category=هضمية" class="category-card" data-category="هضمية">
+                    <span class="category-icon">🍽️</span>
+                    <span class="category-name">هضمية</span>
+                </a>
+                <a href="doctors.html?category=بولية" class="category-card" data-category="بولية">
+                    <span class="category-icon">💧</span>
+                    <span class="category-name">بولية</span>
+                </a>
+                <a href="doctors.html?category=جراحة" class="category-card" data-category="جراحة">
+                    <span class="category-icon">⚕️</span>
+                    <span class="category-name">جراحة</span>
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script>
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set category count
+            const categoryCount = document.querySelectorAll('.category-card').length;
+            document.getElementById('categoryCount').textContent = categoryCount;
+            
+            // Add search input event listener
+            const searchInput = document.getElementById('category-search');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(event) {
+                    if (event.key === 'Enter') {
+                        filterCategories();
+                    }
+                });
+            }
+        });
+        
+        // Function to filter categories
+        function filterCategories() {
+            const searchInput = document.getElementById('category-search');
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryCards = document.querySelectorAll('.category-card');
+            
+            categoryCards.forEach(card => {
+                const categoryName = card.querySelector('.category-name').textContent.toLowerCase();
+                if (categoryName.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update category count based on visible categories
+            const visibleCategories = document.querySelectorAll('.category-card:not([style*="display: none"])').length;
+            document.getElementById('categoryCount').textContent = visibleCategories;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل حلفايا الطبي - الصفحة الرئيسية</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي</span>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">التصنيفات</a></li>
+                <li class="nav-item"><a href="doctors.html" class="nav-link">جميع الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="on-duty.html" class="nav-link">صيدليات المناوبة</a></li>
+                <li class="nav-item"><a href="add.html" class="nav-link">إضافة طبيب/صيدلي</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <!-- Hero Section with Search -->
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">مرحباً بك في دليل حلفايا الطبي</h1>
+                
+                <!-- Intro Message -->
+                <div class="intro-message hadith-section">
+                    <span class="hadith-text">  ما يُصِيبُ المُسْلِمَ، مِن نَصَبٍ ولَا وصَبٍ، ولَا هَمٍّ ولَا حُزْنٍ ولَا أذًى ولَا غَمٍّ، حتَّى الشَّوْكَةِ يُشَاكُهَا، إلَّا كَفَّرَ اللَّهُ بهَا مِن خَطَايَاهُ. </span>
+                    <span class="normal-text"> وهنا نسعى لخدمتكم، ولتسهيل طريقكم إلى الرعاية الطبية. نسأل الله لكم دوام العافية.</span>
+                </div>
+                
+                <p class="hero-subtitle">ابحث عن أفضل الأطباء والصيادلة في مدينة حلفايا</p>
+                
+                <div class="search-container">
+                    <input type="text" id="main-search" class="search-input" placeholder="ابحث باسم الطبيب أو الاختصاص...">
+                    <button class="search-button" id="search-button">بحث</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- On-Duty Pharmacy Section -->
+        <section class="on-duty-section">
+            <div class="container">
+                <h1 class="page-title">صيدليات المناوبة اليوم</h1>
+                <!-- Container for all on-duty pharmacies -->
+                <div id="on-duty-pharmacies-container" class="on-duty-pharmacies-grid">
+                    <!-- Pharmacies will be loaded here dynamically -->
+                    <div class="on-duty-main-card">
+                        <div class="pharmacy-icon">💊</div>
+                        <h2 class="pharmacy-title">جارٍ التحميل...</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- View All Doctors Button -->
+        <section class="view-all-section">
+            <div class="container">
+                <a href="doctors.html" class="view-all-button">عرض جميع الأطباء والصيادلة</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/footer.js"></script>
+    <script>
+        // Initialize search functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async function() {
+            const searchInput = document.getElementById('main-search');
+            const searchButton = document.getElementById('search-button');
+            
+            // Handle Enter key press in search input
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        performSearch(searchInput.value);
+                    }
+                });
+            }
+            
+            // Handle search button click
+            if (searchButton) {
+                searchButton.addEventListener('click', function() {
+                    performSearch(searchInput.value);
+                });
+            }
+            
+            // Load current on-duty pharmacy information from API
+            await loadOnDutyPharmacy();
+        });
+        
+        // Search function to redirect to doctors page with search parameter
+        function performSearch(query) {
+            // Trim whitespace and check if query is not empty
+            query = query.trim();
+            if (query !== '') {
+                // Redirect to doctors.html with encoded search parameter
+                window.location.href = 'doctors.html?search=' + encodeURIComponent(query);
+            }
+        }
+    </script>
+</body>
+</html>

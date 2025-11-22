@@ -1,0 +1,151 @@
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأطباء والصيادلة - دليل حلفايا الطبي</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <div class="logo-link" style="cursor: default; pointer-events: none;">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي - إدارة الأطباء والصيادلة</span>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="admin.html" class="nav-link">لوحة التحكم</a></li>
+                <li class="nav-item"><a href="admin-management.html" class="nav-link">إدارة الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="#" id="logout-link" class="nav-link">تسجيل الخروج</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">إدارة الأطباء والصيادلة</h1>
+            
+            <!-- Notification Message (hidden by default) -->
+            <div id="notification-message" class="notification-message" style="display: none;">
+                <p id="notification-text"></p>
+            </div>
+            
+            <!-- Doctors Management Section -->
+            <section class="admin-section">
+                <h2 class="section-title">إدارة الأطباء</h2>
+                <!-- Search Box for Doctors Management -->
+                <div class="admin-search-controls">
+                    <input type="text" id="adminDoctorsSearchInput" class="admin-search-input" placeholder="ابحث باسم الطبيب...">
+                    <select id="adminDoctorsCategoryFilter" class="admin-category-filter">
+                        <option value="">كل الاختصاصات</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div id="doctors-management-container" class="admin-cards-container">
+                    <!-- Doctors management will be loaded here -->
+                </div>
+            </section>
+            
+            <!-- Pharmacies Management Section -->
+            <section class="admin-section">
+                <h2 class="section-title">إدارة الصيدليات</h2>
+                <!-- Search Box for Pharmacies Management -->
+                <div class="admin-search-controls">
+                    <input type="text" id="adminPharmaciesSearchInput" class="admin-search-input" placeholder="ابحث باسم الصيدلية...">
+                </div>
+                <div id="pharmacies-management-container" class="admin-cards-container">
+                    <!-- Pharmacies management will be loaded here -->
+                </div>
+            </section>
+            
+            <!-- Pharmacists Management Section -->
+            <section class="admin-section">
+                <h2 class="section-title">إدارة الصيادلة</h2>
+                <!-- Search Box for Pharmacists Management -->
+                <div class="admin-search-controls">
+                    <input type="text" id="adminPharmacistsSearchInput" class="admin-search-input" placeholder="ابحث باسم الصيدلي...">
+                </div>
+                <div id="pharmacists-management-container" class="admin-cards-container">
+                    <!-- Pharmacists management will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Check if admin is logged in
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check authentication
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = "admin-login.html";
+                return;
+            }
+            
+            const admin = await checkAuth();
+            if (!admin) {
+                removeAuthToken();
+                window.location.href = "admin-login.html";
+                return;
+            }
+            
+            // Add logout functionality
+            const logoutLink = document.getElementById('logout-link');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    removeAuthToken();
+                    window.location.href = "admin-login.html";
+                });
+            }
+            
+            // Load management sections
+            await loadManagementSections();
+        });
+        
+        // Load management sections (doctors, pharmacists, pharmacies)
+        async function loadManagementSections() {
+            try {
+                // Load doctors
+                await loadDoctorsManagement();
+                
+                // Load pharmacies
+                await loadPharmaciesManagement();
+                
+                // Load pharmacists
+                await loadPharmacistsManagement();
+            } catch (error) {
+                console.error('Error loading management sections:', error);
+            }
+        }
+    </script>
+    
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close-btn">&times;</span>
+        <h3 id="modalTitle"></h3>
+        <form id="modalForm"></form>
+      </div>
+    </div>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/footer.js"></script>
+</body>
+</html>
+

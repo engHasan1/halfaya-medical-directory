@@ -1,0 +1,119 @@
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول الأدمن - دليل حلفايا الطبي</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/اللوغو بخلفية شفافة (1).svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/img/اللوغو بخلفية شفافة (1).svg" alt="دليل حلفايا الطبي" class="logo-image">
+                <span>دليل حلفايا الطبي</span>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">التصنيفات</a></li>
+                <li class="nav-item"><a href="doctors.html" class="nav-link">جميع الأطباء والصيادلة</a></li>
+                <li class="nav-item"><a href="on-duty.html" class="nav-link">صيدليات المناوبة</a></li>
+                <li class="nav-item"><a href="add.html" class="nav-link">إضافة طبيب/صيدلي</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <div class="admin-login-container">
+                <h1 class="page-title">تسجيل دخول الأدمن</h1>
+                
+                <!-- Login Form -->
+                <form id="admin-login-form" class="add-form">
+                    <div class="form-group">
+                        <label for="username">اسم المستخدم</label>
+                        <input type="text" id="username" name="username" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <input type="password" id="password" name="password" class="form-input" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">تسجيل الدخول</button>
+                    
+                    <!-- Error Message (hidden by default) -->
+                    <div id="login-error" class="error-message" style="display: none; color: #dc3545; text-align: center; margin-top: 15px;">
+                        بيانات الدخول غير صحيحة.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Initialize the login form when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if already logged in
+            const token = getAuthToken();
+            if (token) {
+                const admin = await checkAuth();
+                if (admin) {
+                    window.location.href = "admin.html";
+                    return;
+                }
+            }
+            
+            const form = document.getElementById('admin-login-form');
+            const errorMessage = document.getElementById('login-error');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // Add submit event listener
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Disable submit button
+                submitButton.disabled = true;
+                submitButton.textContent = 'جارٍ التحقق...';
+                errorMessage.style.display = 'none';
+                
+                // Get form values
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                try {
+                    // Login via API
+                    const result = await loginAdmin(username, password);
+                    
+                    // Success - redirect to admin panel
+                    window.location.href = "admin.html";
+                } catch (error) {
+                    // Show error message
+                    errorMessage.textContent = error.message || 'بيانات الدخول غير صحيحة.';
+                    errorMessage.style.display = 'block';
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'تسجيل الدخول';
+                }
+            });
+        });
+    </script>
+    
+    <footer class="main-footer">
+        <!-- Footer will be loaded by footer.js -->
+    </footer>
+    
+    <script src="assets/js/footer.js"></script>
+</body>
+</html>
