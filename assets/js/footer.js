@@ -2,7 +2,7 @@
 function loadFooter() {
     const footer = document.querySelector('footer.main-footer');
     if (footer) {
-        footer.innerHTML = '<p>جميع الحقوق محفوظة لدليل حلفايا الطبي - حسن الرجب</p>';
+        footer.innerHTML = '<p>جميع الحقوق محفوظة لدليل حلفايا الطبي - المهندس حسن خالد الرجب</p>';
     }
 }
 
