@@ -133,10 +133,34 @@ body {
 
 /* Hero Section */
 .hero-section {
+    position: relative;
     padding: 60px 0 40px;
     text-align: center;
-    background: linear-gradient(135deg, #2D89EF 0%, #1a5ca3 100%);
+    background-image: url('../img/image.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: white;
+    overflow: hidden;
+}
+
+/* Blue overlay filter */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(45, 137, 239, 0.75) 0%, rgba(26, 92, 163, 0.85) 100%);
+    z-index: 1;
+}
+
+/* Ensure content is above the overlay */
+.hero-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
@@ -619,6 +643,12 @@ body {
         padding: 15px;
     }
     
+    .hero-section {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center center;
+    }
+    
     .hero-title {
         font-size: 2rem;
     }
@@ -649,6 +679,13 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+    .hero-section {
+        padding: 40px 0 30px;
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center center;
+    }
+    
     .hero-title {
         font-size: 1.8rem;
     }
