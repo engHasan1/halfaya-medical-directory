@@ -1,0 +1,19 @@
+{
+  "name": "دليل حلفايا الطبي",
+  "short_name": "حلفايا الطبي",
+  "description": "دليل شامل للأطباء والصيادلة في مدينة حلفايا",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2D89EF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/img/اللوغو بخلفية شفافة (1).svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
