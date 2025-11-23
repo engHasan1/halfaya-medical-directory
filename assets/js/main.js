@@ -1081,6 +1081,11 @@ async function loadPharmaciesManagement() {
             card.className = 'admin-card';
 
             const onDutyStatus = pharmacy.isOnDuty ? '<span style="color: green;">●</span> مناوبة' : '<span style="color: gray;">●</span> غير مناوبة';
+            
+            // زر المناوبة - يتغير حسب الحالة
+            const onDutyButton = pharmacy.isOnDuty 
+                ? `<button class="cancel-on-duty-btn" onclick="togglePharmacyOnDuty('${pharmacy._id}', false)" style="margin-top: 10px; width: 100%;">إلغاء المناوبة</button>`
+                : `<button class="accept-button" onclick="togglePharmacyOnDuty('${pharmacy._id}', true)" style="margin-top: 10px; width: 100%;">اجعلها مناوبة</button>`;
 
             card.innerHTML = `
 
@@ -1093,6 +1098,8 @@ async function loadPharmaciesManagement() {
                 <p><strong>العنوان:</strong> ${pharmacy.address}</p>
 
                 <p><strong>حالة المناوبة:</strong> ${onDutyStatus}</p>
+
+                ${onDutyButton}
 
                 <div class="admin-card-actions">
 
@@ -2666,6 +2673,33 @@ async function savePharmacistEditFromModal(id) {
 
 
 
+// Function to toggle pharmacy on-duty status
+async function togglePharmacyOnDuty(pharmacyId, setOnDuty) {
+    try {
+        const pharmacy = await getPharmacyById(pharmacyId);
+        if (!pharmacy) {
+            showNotification('الصيدلية غير موجودة', 'error');
+            return;
+        }
+        
+        await updatePharmacy(pharmacyId, { ...pharmacy, isOnDuty: setOnDuty });
+        
+        // Reload pharmacies management to update the UI
+        await loadPharmaciesManagement();
+        
+        // Reload on-duty management section (in admin.html) if it exists
+        const onDutyContainer = document.getElementById('on-duty-management-container');
+        if (onDutyContainer) {
+            await loadOnDutyManagement();
+        }
+        
+        const message = setOnDuty ? 'تم تفعيل المناوبة للصيدلية بنجاح' : 'تم إلغاء المناوبة عن الصيدلية بنجاح';
+        showNotification(message, 'success');
+    } catch (error) {
+        showNotification('حدث خطأ في تغيير حالة المناوبة: ' + error.message, 'error');
+    }
+}
+
 // Export functions for use in onclick handlers
 
 window.deletePharmacyHandler = deletePharmacyHandler;
@@ -2679,6 +2713,8 @@ window.openPharmacistEditModal = openPharmacistEditModal;
 window.savePharmacyEditFromModal = savePharmacyEditFromModal;
 
 window.savePharmacistEditFromModal = savePharmacistEditFromModal;
+
+window.togglePharmacyOnDuty = togglePharmacyOnDuty;
 
 
 

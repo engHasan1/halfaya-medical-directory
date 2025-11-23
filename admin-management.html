@@ -54,6 +54,18 @@
                 <p id="notification-text"></p>
             </div>
             
+            <!-- Pharmacies Management Section -->
+            <section class="admin-section">
+                <h2 class="section-title">إدارة الصيدليات</h2>
+                <!-- Search Box for Pharmacies Management -->
+                <div class="admin-search-controls">
+                    <input type="text" id="adminPharmaciesSearchInput" class="admin-search-input" placeholder="ابحث باسم الصيدلية...">
+                </div>
+                <div id="pharmacies-management-container" class="admin-cards-container">
+                    <!-- Pharmacies management will be loaded here -->
+                </div>
+            </section>
+            
             <!-- Doctors Management Section -->
             <section class="admin-section">
                 <h2 class="section-title">إدارة الأطباء</h2>
@@ -67,18 +79,6 @@
                 </div>
                 <div id="doctors-management-container" class="admin-cards-container">
                     <!-- Doctors management will be loaded here -->
-                </div>
-            </section>
-            
-            <!-- Pharmacies Management Section -->
-            <section class="admin-section">
-                <h2 class="section-title">إدارة الصيدليات</h2>
-                <!-- Search Box for Pharmacies Management -->
-                <div class="admin-search-controls">
-                    <input type="text" id="adminPharmaciesSearchInput" class="admin-search-input" placeholder="ابحث باسم الصيدلية...">
-                </div>
-                <div id="pharmacies-management-container" class="admin-cards-container">
-                    <!-- Pharmacies management will be loaded here -->
                 </div>
             </section>
             
@@ -130,14 +130,14 @@
             await loadManagementSections();
         });
         
-        // Load management sections (doctors, pharmacists, pharmacies)
+        // Load management sections (pharmacies, doctors, pharmacists)
         async function loadManagementSections() {
             try {
+                // Load pharmacies first
+                await loadPharmaciesManagement();
+                
                 // Load doctors
                 await loadDoctorsManagement();
-                
-                // Load pharmacies
-                await loadPharmaciesManagement();
                 
                 // Load pharmacists
                 await loadPharmacistsManagement();

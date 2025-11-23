@@ -1729,6 +1729,26 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.admin-category-filter {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 1rem;
+    direction: rtl;
+    background-color: #f8f9fa;
+    transition: border-color 0.3s ease;
+    min-width: 200px;
+    flex: 1 1 auto;
+}
+
+.admin-category-filter:focus {
+    outline: none;
+    border-color: #2D89EF;
+    background-color: white;
 }
 
 #adminCategoryFilter {
@@ -1818,7 +1838,8 @@ body {
 }
 
 .admin-search-input {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 200px;
     padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -1939,6 +1960,18 @@ body {
     
     .admin-section {
         padding: 15px;
+    }
+    
+    .admin-search-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .admin-search-input,
+    .admin-category-filter {
+        width: 100%;
+        min-width: 100%;
+        flex: 1 1 100%;
     }
 }
 
