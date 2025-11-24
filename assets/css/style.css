@@ -1244,6 +1244,47 @@ body {
     cursor: pointer;
 }
 
+/* Shift Type Badge Styles */
+.shift-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.shift-badge.shift-morning {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #8B4513;
+    border: 2px solid #FFD700;
+}
+
+.shift-badge.shift-evening {
+    background: linear-gradient(135deg, #4B0082 0%, #6A5ACD 100%);
+    color: #FFFFFF;
+    border: 2px solid #6A5ACD;
+}
+
+.shift-badge .shift-icon {
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
+.shift-badge .shift-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.shift-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 /* View More Button Container */
 .view-more-container {
     grid-column: 1 / -1;
@@ -2112,6 +2153,99 @@ body {
     background-color: #c82333;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Shift Toggle Button Styles */
+.shift-toggle-btn {
+    background: linear-gradient(135deg, #2D89EF 0%, #1a6bc7 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(45, 137, 239, 0.3);
+}
+
+.shift-toggle-btn:hover {
+    background: linear-gradient(135deg, #1a6bc7 0%, #2D89EF 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 137, 239, 0.4);
+}
+
+.shift-toggle-btn.shift-morning {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #8B4513;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.shift-toggle-btn.shift-morning:hover {
+    background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.shift-toggle-btn.shift-evening {
+    background: linear-gradient(135deg, #4B0082 0%, #6A5ACD 100%);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(75, 0, 130, 0.3);
+}
+
+.shift-toggle-btn.shift-evening:hover {
+    background: linear-gradient(135deg, #6A5ACD 0%, #4B0082 100%);
+    box-shadow: 0 4px 12px rgba(75, 0, 130, 0.4);
+}
+
+/* Admin On-Duty Actions Container */
+.admin-on-duty-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Shift Type Display in Admin Panel */
+.shift-type-display {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Admin On-Duty Item Layout Update */
+.admin-on-duty-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.admin-on-duty-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #2D89EF;
+}
+
+@media screen and (min-width: 768px) {
+    .admin-on-duty-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .admin-on-duty-actions {
+        width: auto;
+        min-width: 200px;
+    }
 }
 
 /* Footer styles */

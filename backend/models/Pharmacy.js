@@ -19,6 +19,11 @@ const pharmacySchema = new mongoose.Schema({
   isOnDuty: {
     type: Boolean,
     default: false
+  },
+  shiftType: {
+    type: String,
+    enum: ['صباحية', 'مسائية'],
+    default: 'صباحية'
   }
 }, {
   timestamps: true

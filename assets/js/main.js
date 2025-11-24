@@ -533,8 +533,18 @@ async function loadOnDutyPharmacy() {
             pharmaciesToShow.forEach((pharmacy, index) => {
                 const pharmacyCard = document.createElement('div');
                 pharmacyCard.className = 'on-duty-pharmacy-card';
+                
+                // تحديد نوع المناوبة مع قيمة افتراضية
+                const shiftType = pharmacy.shiftType || 'صباحية';
+                const shiftIcon = shiftType === 'صباحية' ? '🌅' : '🌙';
+                const shiftClass = shiftType === 'صباحية' ? 'shift-morning' : 'shift-evening';
+                
                 pharmacyCard.innerHTML = `
                     <div class="pharmacy-icon">💊</div>
+                    <div class="shift-badge ${shiftClass}">
+                        <span class="shift-icon">${shiftIcon}</span>
+                        <span class="shift-text">مناوبة ${shiftType}</span>
+                    </div>
                     <h3 class="pharmacy-card-title">${pharmacy.name}</h3>
                     <div class="pharmacy-details">
                         <div class="pharmacy-info-item">
@@ -1081,6 +1091,7 @@ async function loadPharmaciesManagement() {
             card.className = 'admin-card';
 
             const onDutyStatus = pharmacy.isOnDuty ? '<span style="color: green;">●</span> مناوبة' : '<span style="color: gray;">●</span> غير مناوبة';
+            const shiftType = pharmacy.shiftType || 'صباحية';
             
             // زر المناوبة - يتغير حسب الحالة
             const onDutyButton = pharmacy.isOnDuty 
@@ -1098,6 +1109,8 @@ async function loadPharmaciesManagement() {
                 <p><strong>العنوان:</strong> ${pharmacy.address}</p>
 
                 <p><strong>حالة المناوبة:</strong> ${onDutyStatus}</p>
+                
+                ${pharmacy.isOnDuty ? `<p><strong>نوع المناوبة:</strong> ${shiftType}</p>` : ''}
 
                 ${onDutyButton}
 
@@ -1366,6 +1379,20 @@ async function openOnDutyEditModal() {
                 </select>
 
             </div>
+            
+            <div class="form-group">
+
+                <label for="modal-on-duty-shiftType">نوع المناوبة</label>
+
+                <select id="modal-on-duty-shiftType" name="shiftType" required>
+
+                    <option value="صباحية" ${(pharmacy.shiftType || 'صباحية') === 'صباحية' ? 'selected' : ''}>صباحية</option>
+
+                    <option value="مسائية" ${(pharmacy.shiftType || 'صباحية') === 'مسائية' ? 'selected' : ''}>مسائية</option>
+
+                </select>
+
+            </div>
 
             
 
@@ -1401,7 +1428,9 @@ async function saveOnDutyEditFromModal(id) {
 
             address: document.getElementById('modal-on-duty-address').value,
 
-            isOnDuty: document.getElementById('modal-on-duty-isOnDuty').value === 'true'
+            isOnDuty: document.getElementById('modal-on-duty-isOnDuty').value === 'true',
+
+            shiftType: document.getElementById('modal-on-duty-shiftType').value
 
         };
 
@@ -1412,6 +1441,11 @@ async function saveOnDutyEditFromModal(id) {
         closeEditModal();
 
         await loadOnDutyManagement();
+        
+        // Reload on-duty pharmacies on main pages if they exist
+        if (typeof loadOnDutyPharmacy === 'function') {
+            await loadOnDutyPharmacy();
+        }
 
         showNotification("تم تحديث صيدلية المناوبة بنجاح.", 'success');
 
@@ -1672,6 +1706,11 @@ async function loadOnDutyManagement() {
         let pharmaciesHTML = '<div class="admin-on-duty-list">';
 
         pharmacies.forEach((pharmacy) => {
+            const shiftType = pharmacy.shiftType || 'صباحية';
+            const shiftIcon = shiftType === 'صباحية' ? '🌅' : '🌙';
+            const shiftClass = shiftType === 'صباحية' ? 'shift-morning' : 'shift-evening';
+            const oppositeShift = shiftType === 'صباحية' ? 'مسائية' : 'صباحية';
+            const oppositeIcon = shiftType === 'صباحية' ? '🌙' : '🌅';
 
             pharmaciesHTML += `
 
@@ -1684,10 +1723,22 @@ async function loadOnDutyManagement() {
                         <p><strong>رقم الهاتف:</strong> ${pharmacy.phone}</p>
 
                         <p><strong>العنوان:</strong> ${pharmacy.address}</p>
+                        
+                        <div class="shift-type-display" style="margin: 15px 0;">
+                            <span class="shift-badge ${shiftClass}" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+                                <span>${shiftIcon}</span>
+                                <span>مناوبة ${shiftType}</span>
+                            </span>
+                        </div>
 
                     </div>
-
-                    <button type="button" class="cancel-on-duty-btn" onclick="cancelOnDuty('${pharmacy._id}')">إلغاء المناوبة</button>
+                    
+                    <div class="admin-on-duty-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                        <button type="button" class="shift-toggle-btn ${shiftClass}" onclick="toggleShiftType('${pharmacy._id}', '${oppositeShift}')" style="width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                            <span>${oppositeIcon}</span> تغيير إلى مناوبة ${oppositeShift}
+                        </button>
+                        <button type="button" class="cancel-on-duty-btn" onclick="cancelOnDuty('${pharmacy._id}')">إلغاء المناوبة</button>
+                    </div>
 
                 </div>
 
@@ -1830,6 +1881,20 @@ async function selectOnDutyPharmacy() {
                 </select>
 
             </div>
+            
+            <div class="form-group">
+
+                <label for="modal-select-shiftType">نوع المناوبة</label>
+
+                <select id="modal-select-shiftType" name="shiftType" class="form-input" required>
+
+                    <option value="صباحية">صباحية</option>
+
+                    <option value="مسائية">مسائية</option>
+
+                </select>
+
+            </div>
 
             <button type="button" class="submit-button" onclick="saveOnDutySelection()">إضافة</button>
 
@@ -1887,9 +1952,11 @@ async function saveOnDutySelection() {
 
         
 
+        // Get shift type from modal
+        const shiftType = document.getElementById('modal-select-shiftType').value || 'صباحية';
+        
         // Set selected pharmacy to on duty (without removing others)
-
-        await updatePharmacy(selectedPharmacy._id, { ...selectedPharmacy, isOnDuty: true });
+        await updatePharmacy(selectedPharmacy._id, { ...selectedPharmacy, isOnDuty: true, shiftType: shiftType });
 
         
 
@@ -1961,11 +2028,45 @@ async function cancelOnDuty(pharmacyId) {
 
 
 
+// Function to toggle shift type for a pharmacy
+async function toggleShiftType(pharmacyId, newShiftType) {
+    try {
+        const pharmacy = await getPharmacyById(pharmacyId);
+        if (!pharmacy) {
+            showNotification('الصيدلية غير موجودة', 'error');
+            return;
+        }
+        
+        // Update pharmacy with new shift type
+        const updatedData = {
+            name: pharmacy.name,
+            phone: pharmacy.phone,
+            address: pharmacy.address,
+            isOnDuty: pharmacy.isOnDuty,
+            shiftType: newShiftType
+        };
+        
+        await updatePharmacy(pharmacyId, updatedData);
+        await loadOnDutyManagement();
+        
+        // Reload on-duty pharmacies on main pages if they exist
+        if (typeof loadOnDutyPharmacy === 'function') {
+            await loadOnDutyPharmacy();
+        }
+        
+        showNotification(`تم تغيير نوع المناوبة إلى ${newShiftType} بنجاح`, 'success');
+    } catch (error) {
+        showNotification('حدث خطأ في تغيير نوع المناوبة: ' + error.message, 'error');
+    }
+}
+
 // Export functions for use in onclick handlers
 
 window.saveOnDutySelection = saveOnDutySelection;
 
 window.cancelOnDuty = cancelOnDuty;
+
+window.toggleShiftType = toggleShiftType;
 
 
 
@@ -2007,7 +2108,9 @@ async function acceptSubmission(index) {
 
                 address: submission.location || "—",
 
-                isOnDuty: false
+                isOnDuty: false,
+
+                shiftType: 'صباحية'
 
             };
 
@@ -2226,7 +2329,8 @@ async function submitAdminForm() {
                 name: fullName,
                 phone: phone,
                 address: location || "—",
-                isOnDuty: false
+                isOnDuty: false,
+                shiftType: 'صباحية'
             };
             
             await createPharmacy(pharmacyData);
@@ -2484,6 +2588,20 @@ async function openPharmacyEditModal(id) {
                 </select>
 
             </div>
+            
+            <div class="form-group">
+
+                <label for="modal-pharmacy-shiftType">نوع المناوبة</label>
+
+                <select id="modal-pharmacy-shiftType" name="shiftType" required>
+
+                    <option value="صباحية" ${(pharmacy.shiftType || 'صباحية') === 'صباحية' ? 'selected' : ''}>صباحية</option>
+
+                    <option value="مسائية" ${(pharmacy.shiftType || 'صباحية') === 'مسائية' ? 'selected' : ''}>مسائية</option>
+
+                </select>
+
+            </div>
 
             
 
@@ -2519,7 +2637,9 @@ async function savePharmacyEditFromModal(id) {
 
             address: document.getElementById('modal-pharmacy-address').value,
 
-            isOnDuty: document.getElementById('modal-pharmacy-isOnDuty').value === 'true'
+            isOnDuty: document.getElementById('modal-pharmacy-isOnDuty').value === 'true',
+
+            shiftType: document.getElementById('modal-pharmacy-shiftType').value
 
         };
 
@@ -2532,6 +2652,11 @@ async function savePharmacyEditFromModal(id) {
         await loadPharmaciesManagement();
 
         await loadOnDutyManagement(); // Reload on-duty section
+        
+        // Reload on-duty pharmacies on main pages if they exist
+        if (typeof loadOnDutyPharmacy === 'function') {
+            await loadOnDutyPharmacy();
+        }
 
         showNotification("تم تحديث بيانات الصيدلية بنجاح.", 'success');
 
