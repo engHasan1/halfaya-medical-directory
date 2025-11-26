@@ -1192,6 +1192,14 @@ body {
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
+.on-duty-pharmacy-card .shift-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+    text-align: center;
+}
+
 .pharmacy-card-title {
     font-size: 1.5rem;
     color: #2D89EF;
@@ -1248,6 +1256,7 @@ body {
 .shift-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 8px 16px;
     border-radius: 20px;
@@ -1256,6 +1265,9 @@ body {
     margin-bottom: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
 }
 
 .shift-badge.shift-morning {
@@ -1843,6 +1855,8 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     max-width: 600px;
     margin: 25px auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .admin-section-title {
@@ -1889,6 +1903,8 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     max-width: 600px;
     margin: 25px auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .admin-section-title {
@@ -2128,12 +2144,15 @@ body {
 
 .admin-on-duty-item-info {
     flex: 1;
-    min-width: 250px;
+    min-width: 0; /* Allow flex item to shrink below content size */
+    width: 100%;
 }
 
 .admin-on-duty-item-info p {
     margin: 8px 0;
     font-size: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .cancel-on-duty-btn {
@@ -2242,9 +2261,86 @@ body {
         align-items: flex-start;
     }
     
+    .admin-on-duty-item-info {
+        min-width: 250px;
+        width: auto;
+    }
+    
     .admin-on-duty-actions {
         width: auto;
         min-width: 200px;
+    }
+}
+
+/* Responsive styles for small devices */
+@media screen and (max-width: 767px) {
+    .admin-on-duty-card {
+        padding: 15px 18px;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+    
+    .admin-on-duty-item {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .admin-on-duty-item-info {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .admin-on-duty-item-info p {
+        font-size: 14px;
+        margin: 6px 0;
+    }
+    
+    .admin-on-duty-actions {
+        width: 100%;
+    }
+    
+    .shift-toggle-btn,
+    .cancel-on-duty-btn {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .shift-type-display {
+        margin: 12px 0;
+        justify-content: center;
+    }
+    
+    .admin-section-title {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .admin-on-duty-card {
+        padding: 12px 15px;
+        margin: 15px auto;
+    }
+    
+    .admin-on-duty-item {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 10px;
+    }
+    
+    .admin-on-duty-item-info p {
+        font-size: 13px;
+        margin: 5px 0;
+    }
+    
+    .shift-toggle-btn,
+    .cancel-on-duty-btn {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    
+    .admin-section-title {
+        font-size: 16px;
     }
 }
 
